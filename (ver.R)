@@ -1,0 +1,28 @@
+# R 언어 버전
+# 패키지 설치 및 로드
+install.packages('readxl')
+library(readxl)
+# 엑셀 파일 불러오기
+marry <- read.csv("C:/Study/Data/시도_인구동태건수_및_동태율_혼인_19~21 결혼건수(만명).csv", fileEncoding = "euc-kr")
+View(marry)
+
+# 데이터 레이블에서 원하는 항목만을 추출 
+marry2019 <- marry[,c("행정구역별", "X2019년")] 
+marry2020 <- marry[,c("행정구역별", "X2020년")] 
+marry2021 <- marry[,c("행정구역별", "X2021년")]
+View(marry2019)
+View(marry2020)
+View(marry2021)
+
+# 막대그래프 데이터레이블 넣는 준비
+Marry_2019=marry2019$X2019년
+Marry_2020=marry2020$X2020년
+Marry_2021=marry2021$X2021년
+mat_MRY=cbind(Marry_2019, Marry_2020, Marry_2021)
+rownames(mat_MRY)=marry$'행정구역별' # 행 이름 삽입
+View(mat_MRY)
+
+# 막대그래프
+marry_bar = barplot(mat_MRY, beside=T, ylim=c(0, 15), col=rainbow(17), main="지역별 결혼건수", xlab="결혼년도", ylab="단위 : 만 명", cex.main=1.5,cex.lab=1.5, cex.names = 0.8, width=4.5, xlim=c(0,250))
+text(x=marry_bar, y=mat_MRY, labels = mat_MRY, pos=3, col="black") # 데이터 레이블
+legend("topright", legend=c(marry$행정구역별), fill=c(rainbow(17)), cex=0.6) # 범례
