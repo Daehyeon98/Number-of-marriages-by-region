@@ -1,0 +1,46 @@
+# Python 언어 버전
+# 패키지 로드 및 엑셀 파일 로드
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+# 메인 데이터 불러오기
+plt.rcParams["font.family"] = "NanumGothic"
+marry = pd.read_csv('C:/Study/Data/시도_인구동태건수_및_동태율_혼인_19~21 결혼건수(만명).csv', encoding='euc-kr') 
+marry
+
+marry.shape
+
+N = marry.shape[0]
+N
+
+index = np.arange(N)
+index
+
+# 19~21 막대그래프
+plt.figure(figsize=(50,13))
+w = 0.2
+marry_2019 = plt.bar(index - 1.5*w, marry['2019년'], width=w, label='2019년', color='r', alpha=0.3)
+marry_2020 = plt.bar(index, marry['2020년'], width=w, label='2020년', color='g', alpha=0.3)
+marry_2021 = plt.bar(index + 1.5*w, marry['2021년'], width=w, label='2021년', color='y', alpha=0.3)
+
+plt.xticks(index, marry['행정구역별'])
+plt.legend(fontsize=40)
+
+
+for rect in marry_2019: # 데이터레이블
+    height = rect.get_height()
+    plt.text(rect.get_x() + rect.get_width()/2.0, height, '%.2f' % height, ha='center',va='bottom', size = 20)
+
+for rect in marry_2020: # 데이터레이블
+    height = rect.get_height()
+    plt.text(rect.get_x() + rect.get_width()/2.0, height, '%.2f' % height, ha='center',va='bottom', size = 20)
+
+for rect in marry_2021: # 데이터레이블
+    height = rect.get_height()
+    plt.text(rect.get_x() + rect.get_width()/2.0, height, '%.2f' % height, ha='center',va='bottom', size = 20)
+
+plt.ylim(0, 15) # y축 범위
+plt.title('지역별 결혼건수', fontsize=40, pad=30) # title
+plt.xlabel('지역',fontsize=40, labelpad=20) # x축 제목
+plt.ylabel('단위 : 만 명', fontsize=40, labelpad=20) # y축 제목
+plt.xticks(fontsize=20) # x축 레이블 글씨 사이즈
